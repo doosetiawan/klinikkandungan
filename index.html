@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klinik Bunda Sejahtera | dr. Fery Gunawan & dr. Tanti Mariana, Sp.OG</title>
+    
+    <!-- Font Plus Jakarta Sans (Sesuai Gaya Modern) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette Warna Eterniskin Style */
+            --text-dark: #333333;
+            --text-gray: #666666;
+            --pink-solid: #e85d85;       /* Pink pekat untuk blok quote */
+            --pink-accent: #e5758f;      /* Pink ikon dan tombol */
+            --pink-light: #fdf0f3;       /* Pink pudar untuk background banner/tombol */
+            --bg-white: #ffffff;
+            --bg-gray: #f9fafb;
+            --border-color: #eaeaea;
+            
+            /* UI Elements */
+            --radius-btn: 50px;
+            --radius-card: 20px;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(229, 117, 143, 0.1);
+            --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section { padding: 80px 0; }
+        .bg-gray { background-color: var(--bg-gray); }
+
+        /* ================= TOP BAR & HEADER ================= */
+        .top-bar {
+            background: var(--pink-solid);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .top-bar a { color: white; text-decoration: none; font-weight: 700; }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            color: white;
+            background: var(--pink-accent);
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--pink-accent); }
+
+        /* ================= BUTTONS ================= */
+        .btn {
+            padding: 12px 28px;
+            border-radius: var(--radius-btn);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-pink { background-color: var(--pink-accent); color: white; box-shadow: var(--shadow-md); }
+        .btn-pink:hover { background-color: var(--pink-solid); transform: translateY(-2px); }
+        .btn-pink-light { background-color: var(--pink-light); color: var(--pink-accent); }
+        .btn-pink-light:hover { background-color: #f6e0e5; }
+        .btn-outline { background-color: transparent; border: 1.5px solid var(--pink-accent); color: var(--pink-accent); }
+        .btn-outline:hover { background-color: var(--pink-light); }
+        .btn-white { background-color: white; color: var(--pink-solid); }
+        .btn-large { padding: 16px 36px; font-size: 1.05rem; }
+
+        /* ================= HERO BANNER FULL WIDTH ================= */
+        .hero-banner {
+            position: relative;
+            height: 650px;
+            background: linear-gradient(135deg, rgba(229, 117, 143, 0.85), rgba(232, 93, 133, 0.75)), 
+                        url('https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=1920&h=800&fit=crop') center/cover;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            overflow: hidden;
+        }
+        
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--bg-white));
+        }
+
+        .hero-banner .container {
+            position: relative;
+            z-index: 2;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            max-width: 540px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-image-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            max-width: 420px;
+            width: 100%;
+            color: var(--text-dark);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero-card-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--pink-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--pink-accent);
+        }
+
+        .hero-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .hero-card p {
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        .hero-stats-mini {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .hero-stats-mini div {
+            text-align: center;
+        }
+
+        .hero-stats-mini strong {
+            display: block;
+            font-size: 1.4rem;
+            color: var(--pink-accent);
+            font-weight: 700;
+        }
+
+        .hero-stats-mini span {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        /* ================= BANNER STATISTIK ================= */
+        .stats-banner {
+            background-color: var(--pink-light);
+            padding: 50px 0;
+            margin-top: -50px;
+            position: relative;
+            z-index: 3;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .stat-item { flex: 1; min-width: 200px; }
+        .stat-item .stars { color: #fbc02d; font-size: 1.2rem; margin-bottom: 8px; }
+        .stat-item h4 { font-weight: 700; margin-bottom: 4px; font-size: 1.05rem; }
+        .stat-item p { color: var(--text-gray); font-size: 0.9rem; }
+
+        /* ================= LAYANAN BULAT ================= */
+        .sub-title { 
+            color: var(--pink-accent); 
+            font-size: 0.85rem; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            margin-bottom: 12px; 
+        }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.2rem; margin-bottom: 12px; }
+        .section-header p { color: var(--text-gray); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+        .circle-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .circle-item { text-align: center; }
+        .circle-img {
+            width: 100%;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 6px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        .circle-img:hover { transform: translateY(-8px); }
+        .circle-img img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        .circle-img:hover img { transform: scale(1.1); }
+        .circle-item h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.3; color: var(--text-dark); }
+
+        /* ================= WHY US SPLIT ================= */
+        .why-top {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .why-image-left {
+            position: relative;
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+        .why-image-left img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+        .why-features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .feature-item { display: flex; gap: 16px; align-items: flex-start; }
+        .feature-icon { 
+            font-size: 1.6rem; 
+            color: var(--pink-accent);
+            width: 50px;
+            height: 50px;
+            background: var(--pink-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .feature-text p { font-size: 0.95rem; color: var(--text-gray); line-height: 1.6; }
+
+        /* ================= QUOTE BANNER ================= */
+        .quote-banner {
+            background-color: var(--pink-solid);
+            padding: 80px 0 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-banner::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .quote-inner {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .quote-text-area { padding-bottom: 60px; color: white; }
+        .quote-text-area blockquote {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+        .quote-text-area .author { 
+            font-size: 1.1rem; 
+            font-weight: 600;
+            margin-bottom: 32px; 
+            opacity: 0.95;
+        }
+        .quote-doctor-img {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .doctor-img-container {
+            width: 100%;
+            max-width: 400px;
+            height: 450px;
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .doctor-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        /* ================= GALLERY SECTION ================= */
+        .gallery-section {
+            padding: 80px 0;
+            background: var(--bg-white);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 300px;
+            box-shadow: var(--shadow-sm);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 24px;
+            color: white;
+        }
+        .gallery-overlay h4 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* ================= JADWAL DOKTER ================= */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .doctor-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        .doctor-card:hover { 
+            box-shadow: var(--shadow-md); 
+            border-color: var(--pink-accent);
+            transform: translateY(-5px);
+        }
+        .doctor-img {
+            height: 220px;
+            background: linear-gradient(135deg, var(--pink-light), #f8e1e6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .doctor-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .doctor-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--pink-accent);
+            box-shadow: var(--shadow-sm);
+        }
+        .doctor-info { padding: 30px; }
+        .doctor-info h3 { font-size: 1.4rem; margin-bottom: 4px; }
+        .doctor-info .specialty { 
+            color: var(--pink-accent); 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            display: block; 
+            margin-bottom: 20px; 
+        }
+        
+        .schedule-box {
+            background: var(--bg-gray);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .schedule-box h4 { 
+            font-size: 0.85rem; 
+            color: var(--text-gray); 
+            text-transform: uppercase; 
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        .schedule-row:last-child { 
+            margin-bottom: 0; 
+            border-bottom: none; 
+            padding-bottom: 0; 
+        }
+        .schedule-row strong { font-weight: 600; color: var(--text-dark); }
+
+        /* ================= TESTIMONI ================= */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background: white;
+            padding: 32px;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        .testimonial-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        .testimonial-stars {
+            color: #fbc02d;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        .testimonial-text { 
+            font-size: 1rem; 
+            color: var(--text-dark); 
+            font-style: italic; 
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+        .testimonial-author { 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .author-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--pink-light);
+            color: var(--pink-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ================= CTA SECTION ================= */
+        .cta-section {
+            background: linear-gradient(135deg, var(--pink-solid), var(--pink-accent));
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 32px;
+            opacity: 0.95;
+        }
+
+        /* ================= FOOTER & FLOATING WA ================= */
+        footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 80px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand p { color: var(--text-gray); margin-top: 16px; max-width: 320px; }
+        .footer-col h4 { font-size: 1rem; margin-bottom: 20px; color: var(--text-dark); }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col a { text-decoration: none; color: var(--text-gray); transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+        .footer-col a:hover { color: var(--pink-accent); }
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .float-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .float-wa:hover { transform: scale(1.1); }
+
+        /* ================= MODAL RESERVASI ================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-modal);
+            transform: translateY(20px);
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+        .modal-overlay.active .modal { transform: translateY(0); }
+        
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--pink-light);
+        }
+        .modal-header h3 { font-size: 1.3rem; color: var(--text-dark); }
+        .modal-close {
+            background: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            transition: 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+        .modal-close:hover { background: var(--pink-accent); color: white; }
+        
+        .modal-body { padding: 24px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-banner .container { grid-template-columns: 1fr; text-align: center; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { margin: 0 auto 32px; }
+            .hero-buttons { justify-content: center; }
+            .hero-image-right { display: none; }
+            .why-top, .quote-inner, .footer-grid { grid-template-columns: 1fr; }
+            .circle-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .why-features-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+            .quote-doctor-img { justify-content: center; margin-top: 20px; }
+            .quote-text-area { padding-bottom: 0; text-align: center; }
+            .quote-text-area blockquote { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            📍 Jl. Cokroaminoto No.131, Madiun | Tanya via WA: <a href="https://wa.me/6281230000305" target="_blank">0812-3000-0305</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">
+                <i class="fas fa-heart"></i>
+                Bunda Sejahtera
+            </a>
+            <nav>
+                <a href="#beranda">Beranda</a>
+                <a href="#perawatan">Layanan</a>
+                <a href="#galeri">Galeri</a>
+                <a href="#kenapa">Tentang Kami</a>
+                <a href="#dokter">Dokter</a>
+                <a href="#testimoni">Testimoni</a>
+            </nav>
+            <div>
+                <button class="btn btn-pink" onclick="openReservation()">
+                    <i class="fas fa-calendar-check"></i> Buat Janji
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner Full Width -->
+    <section class="hero-banner" id="beranda">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Perawatan Kehamilan Terbaik untuk Ibu & Buah Hati</h1>
+                <p>Klinik kandungan modern di Madiun dengan fasilitas USG 4D terkini, dokter spesialis berpengalaman, dan pendekatan yang hangat serta profesional.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-white btn-large" onclick="openReservation()">
+                        <i class="fas fa-calendar-plus"></i> Reservasi Sekarang
+                    </button>
+                    <a href="https://wa.me/6281230000305" target="_blank" class="btn btn-outline btn-large" style="border-color: white; color: white;">
+                        <i class="fab fa-whatsapp"></i> Konsultasi Gratis
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image-right">
+                <div class="hero-card">
+                    <div class="hero-card-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Klinik Terpercaya</h3>
+                    <p>Didirikan dan diawasi langsung oleh dokter spesialis kandungan dengan pengalaman lebih dari 15 tahun</p>
+                    <div class="hero-stats-mini">
+                        <div>
+                            <strong>4.9</strong>
+                            <span>Rating</span>
+                        </div>
+                        <div>
+                            <strong>10rb+</strong>
+                            <span>Pasien</span>
+                        </div>
+                        <div>
+                            <strong>15+</strong>
+                            <span>Tahun</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Banner Statistik -->
+    <div class="container">
+        <div class="stats-banner">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <h4>456+ Ulasan Google</h4>
+                    <p>Rating 4.9 dari 5 bintang</p>
+                </div>
+                <div class="stat-item">
+                    <h4><i class="fas fa-map-marker-alt" style="color: var(--pink-accent);"></i> Lokasi Strategis</h4>
+                    <p>Pusat Kota Madiun</p>
+                </div>
+                <div class="stat-item">
+                    <h4><i class="fas fa-user-md" style="color: var(--pink-accent);"></i> Dokter Sp.OG</h4>
+                    <p>Bersertifikat & Berpengalaman</p>
+                </div>
+                <div class="stat-item">
+                    <h4><i class="fas fa-clock" style="color: var(--pink-accent);"></i> Buka Setiap Hari</h4>
+                    <p>Selasa - Minggu (Minggu Tutup)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pilihan Layanan dengan Gambar -->
+    <section class="section container" id="perawatan">
+        <div class="section-header">
+            <div class="sub-title">LAYANAN KAMI</div>
+            <h2>Pilih Layanan Sesuai Kebutuhan Anda</h2>
+            <p>Kami menyediakan berbagai layanan kesehatan ibu dan anak dengan standar medis tertinggi dan teknologi terkini.</p>
+        </div>
+
+        <div class="circle-grid">
+            <div class="circle-item">
+                <div class="circle-img">
+                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=400&fit=crop" alt="USG">
+                </div>
+                <h3>Pemeriksaan & USG Rutin</h3>
+            </div>
+            <div class="circle-item">
+                <div class="circle-img">
+                    <img src="https://images.unsplash.com/photo-1519689680956-b11a9bbe6b6d?w=400&h=400&fit=crop" alt="Promil">
+                </div>
+                <h3>Program Hamil (Promil)</h3>
+            </div>
+            <div class="circle-item">
+                <div class="circle-img">
+                    <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=400&fit=crop" alt="Ginekologi">
+                </div>
+                <h3>Keluhan Ginekologi</h3>
+            </div>
+            <div class="circle-item">
+                <div class="circle-img">
+                    <img src="https://images.unsplash.com/photo-1516574187841-693083f6b802?w=400&h=400&fit=crop" alt="Persalinan">
+                </div>
+                <h3>Persalinan Normal & SC</h3>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button class="btn btn-pink btn-large" onclick="openReservation()">
+                <i class="fas fa-calendar-check"></i> Buat Janji Sekarang
+            </button>
+        </div>
+    </section>
+
+    <!-- Kenapa Kami Split Layout dengan Gambar -->
+    <section class="section bg-gray" id="kenapa">
+        <div class="container why-top">
+            <div class="why-image-left">
+                <img src="https://images.unsplash.com/photo-1666214285832-5c2c75586136?w=800&h=900&fit=crop" alt="Dokter dan Pasien">
+            </div>
+            <div class="why-content-right">
+                <div class="sub-title">MENGAPA MEMILIH KAMI</div>
+                <h2 style="font-size: 2.2rem; margin-bottom: 16px;">Perawatan yang Dipersonalisasi untuk Setiap Pasien</h2>
+                <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.05rem;">Kami memahami bahwa setiap kehamilan dan kondisi kesehatan itu unik. Oleh karena itu, kami memberikan perhatian penuh dan rekomendasi yang benar-benar sesuai kebutuhan Anda.</p>
+
+                <div class="why-features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-stethoscope"></i></div>
+                        <div class="feature-text">
+                            <p><strong>Standar Medis Tinggi</strong><br>Diawasi langsung dokter spesialis Sp.OG berpengalaman</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                        <div class="feature-text">
+                            <p><strong>Rekomendasi Jujur</strong><br>Hanya tindakan yang benar-benar diperlukan</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <div class="feature-text">
+                            <p><strong>Transparan</strong><br>Biaya dijelaskan di awal, tanpa biaya tersembunyi</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                        <div class="feature-text">
+                            <p><strong>Konsultasi Dulu</strong><br>Boleh konsultasi tanpa harus langsung tindakan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Banner dengan Gambar Dokter -->
+    <div class="quote-banner">
+        <div class="container quote-inner">
+            <div class="quote-text-area">
+                <blockquote>
+                    "Tidak semua kondisi kehamilan atau keluhan membutuhkan banyak intervensi medis. Yang terpenting adalah memahami kondisinya dan memilih perawatan yang memang diperlukan."
+                </blockquote>
+                <div class="author">— dr. Fery Gunawan, Sp.OG</div>
+                <button class="btn btn-white btn-large" onclick="openReservation()">
+                    <i class="fas fa-calendar-check"></i> Konsultasi Sekarang
+                </button>
+            </div>
+            <div class="quote-doctor-img">
+                <div class="doctor-img-container">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=700&fit=crop" alt="dr. Fery Gunawan">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="galeri">
+        <div class="container">
+            <div class="section-header">
+                <div class="sub-title">GALERI KLINIK</div>
+                <h2>Fasilitas & Suasana Klinik</h2>
+                <p>Lihat kenyamanan dan fasilitas modern yang kami sediakan untuk Anda</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop" alt="Ruang Periksa">
+                    <div class="gallery-overlay">
+                        <h4>Ruang Periksa Nyaman</h4>
+                        <p>Dilengkapi USG 4D terkini</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1581594993774-74613b088f53?w=600&h=400&fit=crop" alt="Ruang Tunggu">
+                    <div class="gallery-overlay">
+                        <h4>Ruang Tunggu</h4>
+                        <p>Nyaman dan ber-AC</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=600&h=400&fit=crop" alt="Peralatan Medis">
+                    <div class="gallery-overlay">
+                        <h4>Peralatan Modern</h4>
+                        <p>Standar internasional</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jadwal Dokter dengan Foto -->
+    <section class="section container" id="dokter">
+        <div class="section-header">
+            <div class="sub-title">TIM DOKTER KAMI</div>
+            <h2>Dokter Spesialis Kandungan</h2>
+            <p>Temui dokter yang akan merawat dan mendampingi perjalanan kehamilan Anda</p>
+        </div>
+        
+        <div class="doctors-grid">
+            <!-- Dokter 1 -->
+            <div class="doctor-card">
+                <div class="doctor-img">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500&h=400&fit=crop" alt="dr. Fery Gunawan">
+                    <span class="doctor-badge">Dokter Senior</span>
+                </div>
+                <div class="doctor-info">
+                    <h3>dr. Fery Gunawan, Sp.OG</h3>
+                    <span class="specialty">Spesialis Obstetri & Ginekologi</span>
+                    <div class="schedule-box">
+                        <h4><i class="far fa-clock"></i> Jadwal Praktek</h4>
+                        <div class="schedule-row">
+                            <strong>Senin, Rabu, Jumat</strong>
+                            <span>14.00 - 21.00</span>
+                        </div>
+                        <div class="schedule-row">
+                            <strong>Selasa, Kamis</strong>
+                            <span>08.00 - 10.00 & 14.00 - 21.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dokter 2 -->
+            <div class="doctor-card">
+                <div class="doctor-img">
+                    <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500&h=400&fit=crop" alt="dr. Tanti Mariana">
+                    <span class="doctor-badge">Konsultan Laktasi</span>
+                </div>
+                <div class="doctor-info">
+                    <h3>dr. Tanti Mariana W., Sp.OG</h3>
+                    <span class="specialty">Spesialis Obstetri & Ginekologi</span>
+                    <div class="schedule-box">
+                        <h4><i class="far fa-clock"></i> Jadwal Praktek</h4>
+                        <div class="schedule-row">
+                            <strong>Selasa, Kamis</strong>
+                            <span>08.00 - 10.00 & 14.00 - 21.00</span>
+                        </div>
+                        <div class="schedule-row">
+                            <strong>Sabtu</strong>
+                            <span>08.00 - 10.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimoni dengan Avatar -->
+    <section class="section bg-gray" id="testimoni">
+        <div class="container">
+            <div class="section-header">
+                <div class="sub-title">TESTIMONI PASIEN</div>
+                <h2>Apa Kata Mereka Tentang Kami</h2>
+                <p>Pengalaman nyata dari para pasien yang mempercayakan kesehatannya pada kami.</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Sangat detail menjelaskan perkembangan janin. Penjelasannya ramah, dokter tidak terburu-buru, dan klinik sangat bersih! USG 4D-nya juga jernih banget."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" alt="Sarah">
+                        </div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Sarah Amelia</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-gray);">Pasien Pemeriksaan Kehamilan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Program promil dari dr. Tanti sangat terarah. Kami dijelaskan semua opsi secara transparan tanpa dipaksa tindakan yang tidak perlu. Alhamdulillah akhirnya hamil!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" alt="Diana">
+                        </div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Diana Nurhaliza</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-gray);">Pasien Program Kehamilan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Pendekatannya jujur, biaya dijelaskan di awal, dan kita diberi waktu berpikir. Pelayanannya top! Persalinan saya ditangani dengan sangat profesional."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop" alt="Rina">
+                        </div>
+                        <div>
+                            <h4 style="font-size: 1rem;">Rina Wulandari</h4>
+                            <p style="font-size: 0.85rem; color: var(--text-gray);">Pasien Persalinan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Siap Merencanakan Kehamilan Sehat?</h2>
+            <p>Jadwalkan konsultasi dengan dokter spesialis kami sekarang. Tim kami siap membantu Anda dengan sepenuh hati.</p>
+            <button class="btn btn-white btn-large" onclick="openReservation()">
+                <i class="fas fa-calendar-check"></i> Reservasi Sekarang
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" style="margin-bottom: 16px;">
+                        <i class="fas fa-heart"></i>
+                        Bunda Sejahtera
+                    </a>
+                    <p>Klinik kandungan dan kebidanan terpercaya di Madiun. Melayani dengan hati untuk kesehatan ibu dan anak sejak 2010.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Kontak & Lokasi</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jl. Cokroaminoto No.131, Madiun</a></li>
+                        <li><a href="tel:081230000305"><i class="fas fa-phone"></i> 0812-3000-0305</a></li>
+                        <li><a href="https://wa.me/6281230000305"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Menu Layanan</h4>
+                    <ul>
+                        <li><a href="#perawatan">Pemeriksaan Rutin</a></li>
+                        <li><a href="#perawatan">Program Hamil</a></li>
+                        <li><a href="#dokter">Jadwal Dokter</a></li>
+                        <li><a href="#testimoni">Testimoni Pasien</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Klinik Bunda Sejahtera. All rights reserved.</p>
+                <div style="display: flex; gap: 16px;">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/6281230000305" target="_blank" class="float-wa" title="Konsultasi via WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Modal Form Reservasi -->
+    <div class="modal-overlay" id="reservationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Reservasi Jadwal</h3>
+                <button class="modal-close" onclick="closeReservation()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="resForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label>Pilih Dokter Spesialis</label>
+                        <select id="docChoice" required>
+                            <option value="">-- Pilih Dokter --</option>
+                            <option value="dr. Fery Gunawan, Sp.OG">dr. Fery Gunawan, Sp.OG</option>
+                            <option value="dr. Tanti Mariana, Sp.OG">dr. Tanti Mariana Wahono, Sp.OG</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nama Lengkap Pasien</label>
+                        <input type="text" id="patientName" required placeholder="Sesuai KTP">
+                    </div>
+                    <div class="form-group">
+                        <label>Nomor WhatsApp Aktif</label>
+                        <input type="tel" id="patientPhone" required placeholder="Contoh: 08123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Tujuan Pemeriksaan</label>
+                        <select id="serviceChoice" required>
+                            <option value="">-- Pilih Tujuan --</option>
+                            <option value="Pemeriksaan Kehamilan">Pemeriksaan Kehamilan Rutin / USG</option>
+                            <option value="Program Hamil">Konsultasi Program Hamil (Promil)</option>
+                            <option value="Kesehatan Ginekologi">Pemeriksaan Keluhan Ginekologi</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-pink" style="width: 100%; justify-content: center; padding: 14px;">
+                        Kirim Reservasi ke WhatsApp <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function openReservation() {
+            document.getElementById('reservationModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReservation() {
+            document.getElementById('reservationModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('reservationModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeReservation();
+        });
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const doc = document.getElementById('docChoice').value;
+            const name = document.getElementById('patientName').value;
+            const phone = document.getElementById('patientPhone').value;
+            const service = document.getElementById('serviceChoice').value;
+
+            const text = `Halo Admin Klinik Bunda Sejahtera, saya ingin membuat janji periksa:\n\n- *Nama Pasien:* ${name}\n- *No. WA:* ${phone}\n- *Dokter:* ${doc}\n- *Tujuan Layanan:* ${service}\n\nMohon info jadwal yang tersedia. Terima kasih.`;
+            
+            const waUrl = `https://wa.me/6281230000305?text=${encodeURIComponent(text)}`;
+            
+            window.open(waUrl, '_blank');
+            closeReservation();
+            document.getElementById('resForm').reset();
+        }
+    </script>
+</body>
+</html>
