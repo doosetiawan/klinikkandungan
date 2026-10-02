@@ -5,32 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Klinik Bunda Sejahtera | dr. Fery Gunawan & dr. Tanti Mariana, Sp.OG</title>
     
-    <!-- Font Plus Jakarta Sans (Sesuai Gaya Modern) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Palette Warna Eterniskin Style */
             --text-dark: #333333;
             --text-gray: #666666;
-            --pink-solid: #e85d85;       /* Pink pekat untuk blok quote */
-            --pink-accent: #e5758f;      /* Pink ikon dan tombol */
-            --pink-light: #fdf0f3;       /* Pink pudar untuk background banner/tombol */
+            --pink-solid: #e85d85;
+            --pink-accent: #e5758f;
+            --pink-light: #fdf0f3;
             --bg-white: #ffffff;
             --bg-gray: #f9fafb;
             --border-color: #eaeaea;
-            
-            /* UI Elements */
             --radius-btn: 50px;
             --radius-card: 20px;
             --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             --shadow-md: 0 10px 15px -3px rgba(229, 117, 143, 0.1);
             --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --green: #10b981;
+            --green-light: #d1fae5;
+            --red: #ef4444;
+            --red-light: #fee2e2;
+            --yellow: #f59e0b;
+            --yellow-light: #fef3c7;
+            --blue: #3b82f6;
+            --blue-light: #dbeafe;
         }
 
         * {
@@ -134,8 +137,13 @@
         .btn-outline:hover { background-color: var(--pink-light); }
         .btn-white { background-color: white; color: var(--pink-solid); }
         .btn-large { padding: 16px 36px; font-size: 1.05rem; }
+        .btn-green { background-color: var(--green); color: white; }
+        .btn-green:hover { background-color: #059669; }
+        .btn-red { background-color: var(--red); color: white; }
+        .btn-red:hover { background-color: #dc2626; }
+        .btn-sm { padding: 8px 16px; font-size: 0.8rem; }
 
-        /* ================= HERO BANNER FULL WIDTH ================= */
+        /* ================= HERO BANNER ================= */
         .hero-banner {
             position: relative;
             height: 650px;
@@ -245,9 +253,7 @@
             border-top: 1px solid var(--border-color);
         }
 
-        .hero-stats-mini div {
-            text-align: center;
-        }
+        .hero-stats-mini div { text-align: center; }
 
         .hero-stats-mini strong {
             display: block;
@@ -649,7 +655,7 @@
             opacity: 0.95;
         }
 
-        /* ================= FOOTER & FLOATING WA ================= */
+        /* ================= FOOTER ================= */
         footer {
             background: white;
             border-top: 1px solid var(--border-color);
@@ -715,12 +721,15 @@
         .modal {
             background: white;
             width: 100%;
-            max-width: 500px;
+            max-width: 560px;
+            max-height: 90vh;
             border-radius: var(--radius-card);
             box-shadow: var(--shadow-modal);
             transform: translateY(20px);
             transition: transform 0.3s;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         .modal-overlay.active .modal { transform: translateY(0); }
         
@@ -731,6 +740,7 @@
             justify-content: space-between;
             align-items: center;
             background: var(--pink-light);
+            flex-shrink: 0;
         }
         .modal-header h3 { font-size: 1.3rem; color: var(--text-dark); }
         .modal-close {
@@ -747,7 +757,11 @@
         }
         .modal-close:hover { background: var(--pink-accent); color: white; }
         
-        .modal-body { padding: 24px; }
+        .modal-body { 
+            padding: 24px; 
+            overflow-y: auto;
+            flex: 1;
+        }
         .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
@@ -756,7 +770,7 @@
             margin-bottom: 8px;
             color: var(--text-dark);
         }
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 14px 16px;
             border: 1.5px solid var(--border-color);
@@ -764,11 +778,359 @@
             font-size: 1rem;
             outline: none;
             transition: 0.2s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        .form-group input:focus, .form-group select:focus {
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             border-color: var(--pink-accent);
             box-shadow: 0 0 0 3px var(--pink-light);
         }
+
+        /* Time Slot Selection */
+        .time-slots-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .time-slot {
+            padding: 12px 8px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: white;
+        }
+        .time-slot:hover {
+            border-color: var(--pink-accent);
+            background: var(--pink-light);
+        }
+        .time-slot.selected {
+            border-color: var(--pink-accent);
+            background: var(--pink-accent);
+            color: white;
+        }
+        .time-slot.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .time-slot small {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+
+        /* Success Modal */
+        .success-content {
+            text-align: center;
+            padding: 40px 24px;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--green-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 2.5rem;
+            color: var(--green);
+        }
+        .success-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+        .success-content p {
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .success-details {
+            background: var(--bg-gray);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: left;
+        }
+        .success-details .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .success-details .detail-row:last-child { border-bottom: none; }
+        .success-details .detail-row strong { color: var(--text-dark); }
+        .success-details .detail-row span { color: var(--text-gray); }
+
+        /* ================= ADMIN PANEL ================= */
+        .admin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .admin-overlay.active { display: flex; opacity: 1; }
+
+        .admin-panel {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-modal);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--pink-solid), var(--pink-accent));
+            color: white;
+            flex-shrink: 0;
+        }
+        .admin-header h3 { font-size: 1.3rem; }
+        .admin-header .admin-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+        .admin-header .admin-close:hover { background: rgba(255,255,255,0.4); }
+
+        .admin-toolbar {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--bg-gray);
+            flex-shrink: 0;
+        }
+        .admin-toolbar select, .admin-toolbar input {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .admin-toolbar select:focus, .admin-toolbar input:focus {
+            border-color: var(--pink-accent);
+        }
+        .admin-stats {
+            display: flex;
+            gap: 16px;
+            margin-left: auto;
+        }
+        .admin-stat-badge {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .badge-pending { background: var(--yellow-light); color: var(--yellow); }
+        .badge-confirmed { background: var(--green-light); color: var(--green); }
+        .badge-cancelled { background: var(--red-light); color: var(--red); }
+
+        .admin-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .reservation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .reservation-card {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.2s;
+            background: white;
+        }
+        .reservation-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--pink-accent);
+        }
+        .reservation-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .reservation-card-header .res-id {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            background: var(--bg-gray);
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-pending { background: var(--yellow-light); color: var(--yellow); }
+        .status-confirmed { background: var(--green-light); color: var(--green); }
+        .status-cancelled { background: var(--red-light); color: var(--red); }
+
+        .reservation-card-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .res-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .res-info-item i {
+            color: var(--pink-accent);
+            width: 16px;
+            text-align: center;
+        }
+        .res-info-item strong { color: var(--text-dark); }
+        .res-info-item span { color: var(--text-gray); }
+
+        .res-complaint {
+            background: var(--bg-gray);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            border-left: 3px solid var(--pink-accent);
+        }
+        .res-complaint strong {
+            display: block;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .reservation-card-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-gray);
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--border-color);
+        }
+        .empty-state h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        /* Admin Login */
+        .admin-login {
+            padding: 40px;
+            text-align: center;
+        }
+        .admin-login h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .admin-login p {
+            color: var(--text-gray);
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+        .admin-login input {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 16px;
+            text-align: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .admin-login input:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 0 3px var(--pink-light);
+        }
+        .admin-login .error-msg {
+            color: var(--red);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            display: none;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-left: 4px solid var(--green);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast i { font-size: 1.3rem; color: var(--green); }
+        .toast span { font-size: 0.9rem; font-weight: 600; }
 
         /* Responsive */
         @media (max-width: 900px) {
@@ -785,17 +1147,14 @@
             .quote-doctor-img { justify-content: center; margin-top: 20px; }
             .quote-text-area { padding-bottom: 0; text-align: center; }
             .quote-text-area blockquote { font-size: 1.4rem; }
+            .reservation-card-body { grid-template-columns: 1fr; }
+            .admin-toolbar { flex-direction: column; align-items: stretch; }
+            .admin-stats { margin-left: 0; justify-content: center; }
+            .time-slots-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
-
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <div class="container">
-            📍 Jl. Cokroaminoto No.131, Madiun | Tanya via WA: <a href="https://wa.me/6281230000305" target="_blank">0812-3000-0305</a>
-        </div>
-    </div>
 
     <!-- Header -->
     <header>
@@ -812,7 +1171,7 @@
                 <a href="#dokter">Dokter</a>
                 <a href="#testimoni">Testimoni</a>
             </nav>
-            <div>
+            <div style="display: flex; gap: 10px; align-items: center;">
                 <button class="btn btn-pink" onclick="openReservation()">
                     <i class="fas fa-calendar-check"></i> Buat Janji
                 </button>
@@ -888,7 +1247,7 @@
         </div>
     </div>
 
-    <!-- Pilihan Layanan dengan Gambar -->
+    <!-- Pilihan Layanan -->
     <section class="section container" id="perawatan">
         <div class="section-header">
             <div class="sub-title">LAYANAN KAMI</div>
@@ -899,25 +1258,25 @@
         <div class="circle-grid">
             <div class="circle-item">
                 <div class="circle-img">
-                    <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=400&fit=crop" alt="USG">
+                    <img src="USG.jpg" alt="USG">
                 </div>
                 <h3>Pemeriksaan & USG Rutin</h3>
             </div>
             <div class="circle-item">
                 <div class="circle-img">
-                    <img src="https://images.unsplash.com/photo-1519689680956-b11a9bbe6b6d?w=400&h=400&fit=crop" alt="Promil">
+                    <img src="Promil.jpg" alt="Promil">
                 </div>
                 <h3>Program Hamil (Promil)</h3>
             </div>
             <div class="circle-item">
                 <div class="circle-img">
-                    <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=400&h=400&fit=crop" alt="Ginekologi">
+                    <img src="Ginekologi.jpg" alt="Ginekologi">
                 </div>
                 <h3>Keluhan Ginekologi</h3>
             </div>
             <div class="circle-item">
                 <div class="circle-img">
-                    <img src="https://images.unsplash.com/photo-1516574187841-693083f6b802?w=400&h=400&fit=crop" alt="Persalinan">
+                    <img src="Persalinan.jpg" alt="Persalinan">
                 </div>
                 <h3>Persalinan Normal & SC</h3>
             </div>
@@ -929,11 +1288,11 @@
         </div>
     </section>
 
-    <!-- Kenapa Kami Split Layout dengan Gambar -->
+    <!-- Kenapa Kami -->
     <section class="section bg-gray" id="kenapa">
         <div class="container why-top">
             <div class="why-image-left">
-                <img src="https://images.unsplash.com/photo-1666214285832-5c2c75586136?w=800&h=900&fit=crop" alt="Dokter dan Pasien">
+                <img src="dokter.jpg" alt="Dokter dan Pasien">
             </div>
             <div class="why-content-right">
                 <div class="sub-title">MENGAPA MEMILIH KAMI</div>
@@ -970,7 +1329,7 @@
         </div>
     </section>
 
-    <!-- Quote Banner dengan Gambar Dokter -->
+    <!-- Quote Banner -->
     <div class="quote-banner">
         <div class="container quote-inner">
             <div class="quote-text-area">
@@ -1007,7 +1366,7 @@
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1581594993774-74613b088f53?w=600&h=400&fit=crop" alt="Ruang Tunggu">
+                    <img src="ruang tunggu.png" alt="Ruang Tunggu">
                     <div class="gallery-overlay">
                         <h4>Ruang Tunggu</h4>
                         <p>Nyaman dan ber-AC</p>
@@ -1024,7 +1383,7 @@
         </div>
     </section>
 
-    <!-- Jadwal Dokter dengan Foto -->
+    <!-- Jadwal Dokter -->
     <section class="section container" id="dokter">
         <div class="section-header">
             <div class="sub-title">TIM DOKTER KAMI</div>
@@ -1033,7 +1392,6 @@
         </div>
         
         <div class="doctors-grid">
-            <!-- Dokter 1 -->
             <div class="doctor-card">
                 <div class="doctor-img">
                     <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500&h=400&fit=crop" alt="dr. Fery Gunawan">
@@ -1056,7 +1414,6 @@
                 </div>
             </div>
             
-            <!-- Dokter 2 -->
             <div class="doctor-card">
                 <div class="doctor-img">
                     <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500&h=400&fit=crop" alt="dr. Tanti Mariana">
@@ -1081,7 +1438,7 @@
         </div>
     </section>
 
-    <!-- Testimoni dengan Avatar -->
+    <!-- Testimoni -->
     <section class="section bg-gray" id="testimoni">
         <div class="container">
             <div class="section-header">
@@ -1177,6 +1534,7 @@
                         <li><a href="#perawatan">Program Hamil</a></li>
                         <li><a href="#dokter">Jadwal Dokter</a></li>
                         <li><a href="#testimoni">Testimoni Pasien</a></li>
+                        <li><a href="#" onclick="openAdminLogin(); return false;" style="color: var(--pink-accent); font-weight: 600;"><i class="fas fa-lock"></i> Panel Admin</a></li>
                     </ul>
                 </div>
             </div>
@@ -1200,75 +1558,519 @@
     <div class="modal-overlay" id="reservationModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>Reservasi Jadwal</h3>
+                <h3><i class="fas fa-calendar-check" style="color: var(--pink-accent); margin-right: 8px;"></i>Reservasi Jadwal</h3>
                 <button class="modal-close" onclick="closeReservation()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="reservationFormContainer">
                 <form id="resForm" onsubmit="handleFormSubmit(event)">
                     <div class="form-group">
-                        <label>Pilih Dokter Spesialis</label>
-                        <select id="docChoice" required>
+                        <label><i class="fas fa-user-md" style="color: var(--pink-accent); margin-right: 6px;"></i>Pilih Dokter</label>
+                        <select id="docChoice" required onchange="updateTimeSlots()">
                             <option value="">-- Pilih Dokter --</option>
                             <option value="dr. Fery Gunawan, Sp.OG">dr. Fery Gunawan, Sp.OG</option>
-                            <option value="dr. Tanti Mariana, Sp.OG">dr. Tanti Mariana Wahono, Sp.OG</option>
+                            <option value="dr. Tanti Mariana W., Sp.OG">dr. Tanti Mariana W., Sp.OG</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Nama Lengkap Pasien</label>
+                        <label><i class="fas fa-user" style="color: var(--pink-accent); margin-right: 6px;"></i>Nama Lengkap Pasien</label>
                         <input type="text" id="patientName" required placeholder="Sesuai KTP">
                     </div>
                     <div class="form-group">
-                        <label>Nomor WhatsApp Aktif</label>
+                        <label><i class="fas fa-phone" style="color: var(--pink-accent); margin-right: 6px;"></i>Nomor WhatsApp Aktif</label>
                         <input type="tel" id="patientPhone" required placeholder="Contoh: 08123456789">
                     </div>
                     <div class="form-group">
-                        <label>Tujuan Pemeriksaan</label>
+                        <label><i class="fas fa-stethoscope" style="color: var(--pink-accent); margin-right: 6px;"></i>Tujuan Pemeriksaan</label>
                         <select id="serviceChoice" required>
                             <option value="">-- Pilih Tujuan --</option>
-                            <option value="Pemeriksaan Kehamilan">Pemeriksaan Kehamilan Rutin / USG</option>
-                            <option value="Program Hamil">Konsultasi Program Hamil (Promil)</option>
-                            <option value="Kesehatan Ginekologi">Pemeriksaan Keluhan Ginekologi</option>
+                            <option value="Pemeriksaan Kehamilan Rutin / USG">Pemeriksaan Kehamilan Rutin / USG</option>
+                            <option value="Konsultasi Program Hamil (Promil)">Konsultasi Program Hamil (Promil)</option>
+                            <option value="Pemeriksaan Keluhan Ginekologi">Pemeriksaan Keluhan Ginekologi</option>
+                            <option value="Konsultasi Persalinan">Konsultasi Persalinan</option>
+                            <option value="Konsultasi Umum">Konsultasi Umum</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-pink" style="width: 100%; justify-content: center; padding: 14px;">
-                        Kirim Reservasi ke WhatsApp <i class="fas fa-paper-plane"></i>
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar" style="color: var(--pink-accent); margin-right: 6px;"></i>Pilih Tanggal</label>
+                        <input type="date" id="appointmentDate" required onchange="updateTimeSlots()">
+                    </div>
+                    <div class="form-group" id="timeSlotGroup" style="display: none;">
+                        <div class="time-slots-label"><i class="fas fa-clock" style="color: var(--pink-accent); margin-right: 6px;"></i>Pilih Jam Perkiraan</div>
+                        <div class="time-slots-grid" id="timeSlotsGrid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment-medical" style="color: var(--pink-accent); margin-right: 6px;"></i>Keterangan / Keluhan</label>
+                        <textarea id="patientComplaint" placeholder="Jelaskan keluhan atau keterangan tambahan yang ingin disampaikan kepada dokter..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-pink" style="width: 100%; justify-content: center; padding: 16px; font-size: 1rem;">
+                        <i class="fas fa-paper-plane"></i> Kirim Reservasi
                     </button>
                 </form>
+            </div>
+            <!-- Success State -->
+            <div class="modal-body" id="reservationSuccessContainer" style="display: none;">
+                <div class="success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3>Reservasi Berhasil Dikirim!</h3>
+                    <p>Terima kasih, reservasi Anda telah diterima oleh admin kami. Silakan tunggu konfirmasi jadwal melalui WhatsApp.</p>
+                    <div class="success-details" id="successDetails">
+                    </div>
+                    <button class="btn btn-pink" onclick="closeReservation()" style="width: 100%; justify-content: center; padding: 14px;">
+                        <i class="fas fa-check-circle"></i> Selesai
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Script -->
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal" style="max-width: 420px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock" style="color: var(--pink-accent); margin-right: 8px;"></i>Panel Admin</h3>
+                <button class="modal-close" onclick="closeAdminLogin()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-login">
+                    <h3>Masuk sebagai Admin</h3>
+                    <p>Masukkan password untuk mengelola reservasi</p>
+                    <div class="error-msg" id="loginError">Password salah! Coba lagi.</div>
+                    <input type="password" id="adminPassword" placeholder="Masukkan password" onkeypress="if(event.key==='Enter')attemptLogin()">
+                    <br>
+                    <button class="btn btn-pink" onclick="attemptLogin()" style="width: 100%; max-width: 300px; justify-content: center;">
+                        <i class="fas fa-sign-in-alt"></i> Masuk
+                    </button>
+                    <p style="margin-top: 16px; font-size: 0.8rem; color: var(--text-gray);">Password default: <strong>admin123</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="admin-overlay" id="adminPanelModal">
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h3><i class="fas fa-clipboard-list" style="margin-right: 8px;"></i>Panel Admin - Reservasi</h3>
+                <button class="admin-close" onclick="closeAdminPanel()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="admin-toolbar">
+                <select id="filterStatus" onchange="renderReservations()">
+                    <option value="all">Semua Status</option>
+                    <option value="pending">Menunggu</option>
+                    <option value="confirmed">Dikonfirmasi</option>
+                    <option value="cancelled">Dibatalkan</option>
+                </select>
+                <select id="filterDoctor" onchange="renderReservations()">
+                    <option value="all">Semua Dokter</option>
+                    <option value="dr. Fery Gunawan, Sp.OG">dr. Fery Gunawan</option>
+                    <option value="dr. Tanti Mariana W., Sp.OG">dr. Tanti Mariana</option>
+                </select>
+                <input type="text" id="searchReservation" placeholder="Cari nama pasien..." oninput="renderReservations()">
+                <div class="admin-stats" id="adminStats">
+                </div>
+            </div>
+            <div class="admin-body" id="adminBody">
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Berhasil!</span>
+    </div>
+
     <script>
+        // ==================== DATA & CONFIG ====================
+        const ADMIN_PASSWORD = 'admin123';
+        let selectedTimeSlot = null;
+
+        // Doctor schedules configuration
+        const doctorSchedules = {
+            'dr. Fery Gunawan, Sp.OG': {
+                1: ['14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Senin
+                3: ['14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Rabu
+                5: ['14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Jumat
+                2: ['08:00 - 10:00', '14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Selasa
+                4: ['08:00 - 10:00', '14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00']  // Kamis
+            },
+            'dr. Tanti Mariana W., Sp.OG': {
+                2: ['08:00 - 10:00', '14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Selasa
+                4: ['08:00 - 10:00', '14:00 - 16:00', '16:00 - 18:00', '18:00 - 20:00'], // Kamis
+                6: ['08:00 - 10:00'] // Sabtu
+            }
+        };
+
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        // ==================== LOCAL STORAGE ====================
+        function getReservations() {
+            const data = localStorage.getItem('klinikReservations');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveReservations(reservations) {
+            localStorage.setItem('klinikReservations', JSON.stringify(reservations));
+        }
+
+        function generateId() {
+            return 'RSV-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
+        }
+
+        // ==================== SET MIN DATE ====================
+        function setMinDate() {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('appointmentDate').setAttribute('min', `${yyyy}-${mm}-${dd}`);
+        }
+
+        // ==================== TIME SLOTS ====================
+        function updateTimeSlots() {
+            const doctor = document.getElementById('docChoice').value;
+            const dateStr = document.getElementById('appointmentDate').value;
+            const timeSlotGroup = document.getElementById('timeSlotGroup');
+            const timeSlotsGrid = document.getElementById('timeSlotsGrid');
+
+            selectedTimeSlot = null;
+
+            if (!doctor || !dateStr) {
+                timeSlotGroup.style.display = 'none';
+                return;
+            }
+
+            const date = new Date(dateStr);
+            const dayOfWeek = date.getDay(); // 0=Minggu, 1=Senin, etc.
+
+            if (dayOfWeek === 0) {
+                timeSlotGroup.style.display = 'block';
+                timeSlotsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--red); font-size: 0.9rem; padding: 16px;"><i class="fas fa-exclamation-circle"></i> Klinik tutup hari Minggu. Silakan pilih hari lain.</p>';
+                return;
+            }
+
+            const schedule = doctorSchedules[doctor];
+            const availableSlots = schedule ? schedule[dayOfWeek] : null;
+
+            timeSlotGroup.style.display = 'block';
+
+            if (!availableSlots || availableSlots.length === 0) {
+                timeSlotsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-gray); font-size: 0.9rem; padding: 16px;"><i class="fas fa-info-circle"></i> Dokter ini tidak praktek pada hari ${dayNames[dayOfWeek]}. Silakan pilih tanggal lain.</p>`;
+                return;
+            }
+
+            // Check which slots are already booked
+            const reservations = getReservations();
+            const bookedSlots = reservations
+                .filter(r => r.doctor === doctor && r.date === dateStr && r.status !== 'cancelled')
+                .map(r => r.timeSlot);
+
+            timeSlotsGrid.innerHTML = '';
+            availableSlots.forEach(slot => {
+                const isBooked = bookedSlots.includes(slot);
+                const div = document.createElement('div');
+                div.className = 'time-slot' + (isBooked ? ' disabled' : '');
+                div.innerHTML = `${slot}${isBooked ? '<small>Terisi</small>' : '<small>Tersedia</small>'}`;
+                if (!isBooked) {
+                    div.onclick = function() {
+                        document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedTimeSlot = slot;
+                    };
+                }
+                timeSlotsGrid.appendChild(div);
+            });
+        }
+
+        // ==================== RESERVATION MODAL ====================
         function openReservation() {
             document.getElementById('reservationModal').classList.add('active');
+            document.getElementById('reservationFormContainer').style.display = 'block';
+            document.getElementById('reservationSuccessContainer').style.display = 'none';
             document.body.style.overflow = 'hidden';
+            setMinDate();
+            selectedTimeSlot = null;
         }
 
         function closeReservation() {
             document.getElementById('reservationModal').classList.remove('active');
             document.body.style.overflow = '';
+            document.getElementById('resForm').reset();
+            document.getElementById('timeSlotGroup').style.display = 'none';
+            selectedTimeSlot = null;
         }
 
         document.getElementById('reservationModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeReservation();
         });
 
+        // ==================== FORM SUBMIT ====================
         function handleFormSubmit(e) {
             e.preventDefault();
-            const doc = document.getElementById('docChoice').value;
-            const name = document.getElementById('patientName').value;
-            const phone = document.getElementById('patientPhone').value;
-            const service = document.getElementById('serviceChoice').value;
 
-            const text = `Halo Admin Klinik Bunda Sejahtera, saya ingin membuat janji periksa:\n\n- *Nama Pasien:* ${name}\n- *No. WA:* ${phone}\n- *Dokter:* ${doc}\n- *Tujuan Layanan:* ${service}\n\nMohon info jadwal yang tersedia. Terima kasih.`;
-            
-            const waUrl = `https://wa.me/6281230000305?text=${encodeURIComponent(text)}`;
-            
-            window.open(waUrl, '_blank');
-            closeReservation();
-            document.getElementById('resForm').reset();
+            if (!selectedTimeSlot) {
+                showToast('Silakan pilih jam perkiraan terlebih dahulu!', 'warning');
+                return;
+            }
+
+            const reservation = {
+                id: generateId(),
+                doctor: document.getElementById('docChoice').value,
+                patientName: document.getElementById('patientName').value,
+                patientPhone: document.getElementById('patientPhone').value,
+                service: document.getElementById('serviceChoice').value,
+                date: document.getElementById('appointmentDate').value,
+                timeSlot: selectedTimeSlot,
+                complaint: document.getElementById('patientComplaint').value || '-',
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            const reservations = getReservations();
+            reservations.unshift(reservation);
+            saveReservations(reservations);
+
+            // Show success
+            document.getElementById('reservationFormContainer').style.display = 'none';
+            document.getElementById('reservationSuccessContainer').style.display = 'block';
+
+            const dateObj = new Date(reservation.date);
+            const formattedDate = `${dayNames[dateObj.getDay()]}, ${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+
+            document.getElementById('successDetails').innerHTML = `
+                <div class="detail-row"><strong>No. Reservasi</strong><span>${reservation.id}</span></div>
+                <div class="detail-row"><strong>Pasien</strong><span>${reservation.patientName}</span></div>
+                <div class="detail-row"><strong>Dokter</strong><span>${reservation.doctor}</span></div>
+                <div class="detail-row"><strong>Tanggal</strong><span>${formattedDate}</span></div>
+                <div class="detail-row"><strong>Jam</strong><span>${reservation.timeSlot}</span></div>
+                <div class="detail-row"><strong>Layanan</strong><span>${reservation.service}</span></div>
+                <div class="detail-row"><strong>Status</strong><span style="color: var(--yellow); font-weight: 700;">⏳ Menunggu Konfirmasi</span></div>
+            `;
+
+            showToast('Reservasi berhasil dikirim!');
         }
+
+        // ==================== ADMIN PANEL ====================
+        function openAdminLogin() {
+            document.getElementById('adminLoginModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('adminLoginModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeAdminLogin();
+        });
+
+        function attemptLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                closeAdminLogin();
+                openAdminPanel();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+                document.getElementById('adminPassword').focus();
+            }
+        }
+
+        function openAdminPanel() {
+            document.getElementById('adminPanelModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderReservations();
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanelModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('adminPanelModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeAdminPanel();
+        });
+
+        function renderReservations() {
+            const reservations = getReservations();
+            const filterStatus = document.getElementById('filterStatus').value;
+            const filterDoctor = document.getElementById('filterDoctor').value;
+            const searchQuery = document.getElementById('searchReservation').value.toLowerCase();
+
+            let filtered = reservations;
+
+            if (filterStatus !== 'all') {
+                filtered = filtered.filter(r => r.status === filterStatus);
+            }
+            if (filterDoctor !== 'all') {
+                filtered = filtered.filter(r => r.doctor === filterDoctor);
+            }
+            if (searchQuery) {
+                filtered = filtered.filter(r => 
+                    r.patientName.toLowerCase().includes(searchQuery) ||
+                    r.id.toLowerCase().includes(searchQuery) ||
+                    r.patientPhone.includes(searchQuery)
+                );
+            }
+
+            // Stats
+            const pending = reservations.filter(r => r.status === 'pending').length;
+            const confirmed = reservations.filter(r => r.status === 'confirmed').length;
+            const cancelled = reservations.filter(r => r.status === 'cancelled').length;
+
+            document.getElementById('adminStats').innerHTML = `
+                <span class="admin-stat-badge badge-pending">⏳ ${pending} Menunggu</span>
+                <span class="admin-stat-badge badge-confirmed">✓ ${confirmed} Dikonfirmasi</span>
+                <span class="admin-stat-badge badge-cancelled">✕ ${cancelled} Dibatalkan</span>
+            `;
+
+            const adminBody = document.getElementById('adminBody');
+
+            if (filtered.length === 0) {
+                adminBody.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h4>Belum Ada Reservasi</h4>
+                        <p>${reservations.length === 0 ? 'Belum ada reservasi yang masuk.' : 'Tidak ada reservasi sesuai filter.'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="reservation-list">';
+            filtered.forEach(res => {
+                const dateObj = new Date(res.date);
+                const formattedDate = `${dayNames[dateObj.getDay()]}, ${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+                const createdDate = new Date(res.createdAt);
+                const formattedCreated = `${createdDate.getDate()}/${createdDate.getMonth()+1}/${createdDate.getFullYear()} ${String(createdDate.getHours()).padStart(2,'0')}:${String(createdDate.getMinutes()).padStart(2,'0')}`;
+
+                const statusClass = `status-${res.status}`;
+                const statusText = res.status === 'pending' ? 'Menunggu' : res.status === 'confirmed' ? 'Dikonfirmasi' : 'Dibatalkan';
+
+                html += `
+                    <div class="reservation-card">
+                        <div class="reservation-card-header">
+                            <span class="res-id"><i class="fas fa-hashtag"></i> ${res.id}</span>
+                            <span class="status-badge ${statusClass}">${statusText}</span>
+                        </div>
+                        <div class="reservation-card-body">
+                            <div class="res-info-item">
+                                <i class="fas fa-user"></i>
+                                <strong>${res.patientName}</strong>
+                            </div>
+                            <div class="res-info-item">
+                                <i class="fas fa-phone"></i>
+                                <span>${res.patientPhone}</span>
+                            </div>
+                            <div class="res-info-item">
+                                <i class="fas fa-user-md"></i>
+                                <span>${res.doctor}</span>
+                            </div>
+                            <div class="res-info-item">
+                                <i class="fas fa-stethoscope"></i>
+                                <span>${res.service}</span>
+                            </div>
+                            <div class="res-info-item">
+                                <i class="fas fa-calendar"></i>
+                                <strong>${formattedDate}</strong>
+                            </div>
+                            <div class="res-info-item">
+                                <i class="fas fa-clock"></i>
+                                <strong>${res.timeSlot}</strong>
+                            </div>
+                        </div>
+                        ${res.complaint && res.complaint !== '-' ? `
+                        <div class="res-complaint">
+                            <strong><i class="fas fa-comment-medical"></i> Keterangan / Keluhan</strong>
+                            ${res.complaint}
+                        </div>
+                        ` : ''}
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-size: 0.8rem; color: var(--text-gray);"><i class="fas fa-info-circle"></i> Dibuat: ${formattedCreated}</span>
+                        </div>
+                        <div class="reservation-card-actions">
+                            ${res.status === 'pending' ? `
+                                <button class="btn btn-green btn-sm" onclick="updateStatus('${res.id}', 'confirmed')">
+                                    <i class="fas fa-check"></i> Konfirmasi
+                                </button>
+                                <button class="btn btn-red btn-sm" onclick="updateStatus('${res.id}', 'cancelled')">
+                                    <i class="fas fa-times"></i> Tolak
+                                </button>
+                            ` : ''}
+                            ${res.status === 'confirmed' ? `
+                                <button class="btn btn-red btn-sm" onclick="updateStatus('${res.id}', 'cancelled')">
+                                    <i class="fas fa-times"></i> Batalkan
+                                </button>
+                            ` : ''}
+                            ${res.status === 'cancelled' ? `
+                                <button class="btn btn-green btn-sm" onclick="updateStatus('${res.id}', 'confirmed')">
+                                    <i class="fas fa-redo"></i> Aktifkan Kembali
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-pink-light btn-sm" onclick="deleteReservation('${res.id}')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            adminBody.innerHTML = html;
+        }
+
+        function updateStatus(id, newStatus) {
+            const reservations = getReservations();
+            const index = reservations.findIndex(r => r.id === id);
+            if (index !== -1) {
+                reservations[index].status = newStatus;
+                saveReservations(reservations);
+                renderReservations();
+                const statusText = newStatus === 'confirmed' ? 'Dikonfirmasi ✓' : 'Dibatalkan ✕';
+                showToast(`Reservasi ${id} telah ${statusText}`);
+            }
+        }
+
+        function deleteReservation(id) {
+            if (!confirm('Yakin ingin menghapus reservasi ini? Tindakan ini tidak dapat dibatalkan.')) return;
+            const reservations = getReservations().filter(r => r.id !== id);
+            saveReservations(reservations);
+            renderReservations();
+            showToast('Reservasi telah dihapus');
+        }
+
+        // ==================== TOAST ====================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            
+            const icon = toast.querySelector('i');
+            if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-circle';
+                icon.style.color = 'var(--yellow)';
+                toast.style.borderLeftColor = 'var(--yellow)';
+            } else {
+                icon.className = 'fas fa-check-circle';
+                icon.style.color = 'var(--green)';
+                toast.style.borderLeftColor = 'var(--green)';
+            }
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            setMinDate();
+        });
     </script>
 </body>
 </html>

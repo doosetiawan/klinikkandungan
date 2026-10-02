@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Klinik Bunda Sejahtera</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --text-dark: #1f2937;
+            --text-gray: #6b7280;
+            --text-light: #9ca3af;
+            --pink-solid: #e85d85;
+            --pink-accent: #e5758f;
+            --pink-light: #fdf0f3;
+            --bg-white: #ffffff;
+            --bg-gray: #f9fafb;
+            --bg-dark: #111827;
+            --border-color: #e5e7eb;
+            --green: #10b981;
+            --green-light: #d1fae5;
+            --red: #ef4444;
+            --red-light: #fee2e2;
+            --yellow: #f59e0b;
+            --yellow-light: #fef3c7;
+            --blue: #3b82f6;
+            --blue-light: #dbeafe;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+            --radius: 12px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg-gray); color: var(--text-dark); min-height: 100vh; }
+
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--pink-solid), var(--pink-accent));
+            padding: 20px;
+        }
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            background: var(--pink-light);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--pink-accent);
+        }
+        .login-card h1 { font-size: 1.5rem; margin-bottom: 8px; }
+        .login-card .subtitle { color: var(--text-gray); margin-bottom: 32px; font-size: 0.95rem; }
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 16px;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .login-input:focus { border-color: var(--pink-accent); box-shadow: 0 0 0 3px var(--pink-light); }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--pink-accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .login-btn:hover { background: var(--pink-solid); }
+        .login-error { color: var(--red); font-size: 0.85rem; margin-bottom: 12px; display: none; }
+        .login-hint { margin-top: 24px; font-size: 0.8rem; color: var(--text-light); }
+        .login-hint code { background: var(--bg-gray); padding: 2px 8px; border-radius: 4px; font-weight: 600; color: var(--text-dark); }
+
+        /* ===== MAIN LAYOUT ===== */
+        .app { display: none; min-height: 100vh; }
+        .app.active { display: flex; }
+        .sidebar {
+            width: 260px;
+            background: var(--bg-dark);
+            color: white;
+            padding: 24px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        .sidebar-brand {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--pink-accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .sidebar-brand-text h3 { font-size: 1rem; font-weight: 700; }
+        .sidebar-brand-text p { font-size: 0.75rem; color: var(--text-light); }
+        .sidebar-menu { padding: 16px 12px; }
+        .sidebar-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-light); padding: 12px 12px 8px; letter-spacing: 1px; font-weight: 700; }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .sidebar-item:hover { background: rgba(255,255,255,0.08); color: white; }
+        .sidebar-item.active { background: var(--pink-accent); color: white; font-weight: 600; }
+        .sidebar-item i { width: 20px; text-align: center; }
+        .sidebar-item .badge {
+            margin-left: auto;
+            background: var(--red);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+        .sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .logout-btn:hover { background: rgba(239, 68, 68, 0.2); color: white; }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 32px;
+            min-height: 100vh;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .page-title h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
+        .page-title p { color: var(--text-gray); font-size: 0.95rem; }
+
+        /* ===== QUEUE NUMBER DISPLAY ===== */
+        .queue-display {
+            background: linear-gradient(135deg, var(--pink-solid), var(--pink-accent));
+            border-radius: 20px;
+            padding: 32px;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(232, 93, 133, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .queue-display::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        .queue-main {
+            grid-column: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .queue-main-label { font-size: 0.85rem; opacity: 0.9; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .queue-main-number {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .queue-main-sub { font-size: 0.9rem; opacity: 0.9; }
+        .queue-stat {
+            background: rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+        }
+        .queue-stat-label { font-size: 0.75rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; }
+        .queue-stat-value { font-size: 2rem; font-weight: 800; }
+        .queue-stat-sub { font-size: 0.8rem; opacity: 0.85; margin-top: 4px; }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: 0.2s;
+        }
+        .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .stat-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .stat-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .stat-card-icon.pending { background: var(--yellow-light); color: var(--yellow); }
+        .stat-card-icon.confirmed { background: var(--green-light); color: var(--green); }
+        .stat-card-icon.online { background: var(--blue-light); color: var(--blue); }
+        .stat-card-icon.offline { background: var(--purple-light); color: var(--purple); }
+        .stat-card-value { font-size: 1.8rem; font-weight: 800; margin-bottom: 4px; }
+        .stat-card-label { color: var(--text-gray); font-size: 0.85rem; }
+
+        /* ===== CARD / TABLE ===== */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .card-title { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .card-title i { color: var(--pink-accent); }
+        .card-body { padding: 24px; }
+        .card-body.no-pad { padding: 0; }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .toolbar select, .toolbar input {
+            padding: 10px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            outline: none;
+            background: white;
+            font-family: inherit;
+        }
+        .toolbar select:focus, .toolbar input:focus { border-color: var(--pink-accent); }
+        .toolbar input { min-width: 200px; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary { background: var(--pink-accent); color: white; }
+        .btn-primary:hover { background: var(--pink-solid); }
+        .btn-success { background: var(--green); color: white; }
+        .btn-success:hover { background: #059669; }
+        .btn-danger { background: var(--red); color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-warning { background: var(--yellow); color: white; }
+        .btn-warning:hover { background: #d97706; }
+        .btn-secondary { background: var(--bg-gray); color: var(--text-dark); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: var(--border-color); }
+        .btn-wa { background: #25D366; color: white; }
+        .btn-wa:hover { background: #1da851; }
+        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+        .btn-lg { padding: 14px 24px; font-size: 1rem; }
+
+        /* ===== RESERVATION LIST ===== */
+        .res-list { display: flex; flex-direction: column; }
+        .res-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            transition: 0.2s;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+        .res-item:last-child { border-bottom: none; }
+        .res-item:hover { background: var(--bg-gray); }
+        .res-queue {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .res-queue.pending { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .res-queue.confirmed { background: linear-gradient(135deg, #10b981, #059669); }
+        .res-queue.cancelled { background: linear-gradient(135deg, #9ca3af, #6b7280); }
+        .res-queue.completed { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .res-queue-number { font-size: 1.5rem; line-height: 1; }
+        .res-queue-label { font-size: 0.6rem; text-transform: uppercase; opacity: 0.9; margin-top: 2px; letter-spacing: 0.5px; }
+        .res-queue-edit {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .res-info { min-width: 0; }
+        .res-info-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+        .res-name { font-weight: 700; font-size: 1rem; }
+        .res-type-badge {
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .res-type-badge.online { background: var(--blue-light); color: var(--blue); }
+        .res-type-badge.offline { background: var(--purple-light); color: var(--purple); }
+        .res-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-gray); margin-bottom: 6px; }
+        .res-meta span { display: flex; align-items: center; gap: 4px; }
+        .res-meta i { font-size: 0.75rem; color: var(--pink-accent); }
+        .res-complaint {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            background: var(--bg-gray);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--pink-accent);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        .res-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-gray);
+        }
+        .empty-state i { font-size: 3rem; margin-bottom: 16px; color: var(--border-color); }
+        .empty-state h4 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-dark); }
+
+        /* ===== FORM ===== */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: var(--text-dark); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--pink-accent); box-shadow: 0 0 0 3px var(--pink-light); }
+        .form-hint { font-size: 0.8rem; color: var(--text-light); margin-top: 4px; }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--pink-light);
+        }
+        .modal-header h3 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .modal-header h3 i { color: var(--pink-accent); }
+        .modal-close {
+            background: white;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-gray);
+            font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .modal-close:hover { background: var(--pink-accent); color: white; }
+        .modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background: var(--bg-gray);
+        }
+
+        .wa-preview {
+            background: #e5ddd5;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23d4c9be' fill-opacity='0.2'%3E%3Cpath d='M0 0h60v60H0z'/%3E%3C/g%3E%3C/svg%3E");
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .wa-bubble {
+            background: #dcf8c6;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            position: relative;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            max-width: 100%;
+        }
+        .wa-bubble::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 10px 10px 0;
+            border-color: transparent #dcf8c6 transparent transparent;
+        }
+        .wa-time {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-left: 4px solid var(--green);
+        }
+        .toast.show { transform: translateX(0); }
+        .toast i { font-size: 1.3rem; color: var(--green); }
+        .toast.error { border-left-color: var(--red); }
+        .toast.error i { color: var(--red); }
+
+        /* ===== PAGE SECTIONS ===== */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .sidebar { width: 220px; }
+            .main-content { margin-left: 220px; padding: 20px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .queue-display { grid-template-columns: 1fr; }
+            .queue-main-number { font-size: 3.5rem; }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                width: 260px;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 16px; }
+            .mobile-toggle {
+                display: flex !important;
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                z-index: 200;
+                width: 44px;
+                height: 44px;
+                background: var(--pink-accent);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+                cursor: pointer;
+                box-shadow: var(--shadow-md);
+            }
+            .res-item { grid-template-columns: 1fr; gap: 12px; }
+            .res-queue { width: 50px; height: 50px; }
+            .res-queue-number { font-size: 1.2rem; }
+            .res-actions { justify-content: flex-start; }
+            .form-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .mobile-toggle { display: none; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+        .sidebar-overlay.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo"><i class="fas fa-heart"></i></div>
+            <h1>Admin Panel</h1>
+            <p class="subtitle">Klinik Bunda Sejahtera</p>
+            <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> Password salah!</div>
+            <input type="password" class="login-input" id="loginPassword" placeholder="••••••••" onkeypress="if(event.key==='Enter')attemptLogin()">
+            <button class="login-btn" onclick="attemptLogin()"><i class="fas fa-sign-in-alt"></i> Masuk</button>
+            <p class="login-hint">Password default: <code>admin123</code></p>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="app" id="mainApp">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon"><i class="fas fa-heart"></i></div>
+                <div class="sidebar-brand-text">
+                    <h3>Bunda Sejahtera</h3>
+                    <p>Admin Panel</p>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="sidebar-label">Menu Utama</div>
+                <div class="sidebar-item active" onclick="showPage('dashboard', this)">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </div>
+                <div class="sidebar-item" onclick="showPage('queue', this)">
+                    <i class="fas fa-list-ol"></i> Antrian Hari Ini
+                    <span class="badge" id="pendingBadge">0</span>
+                </div>
+                <div class="sidebar-item" onclick="showPage('register', this)">
+                    <i class="fas fa-user-plus"></i> Pendaftaran Manual
+                </div>
+                <div class="sidebar-label">Pengaturan</div>
+                <div class="sidebar-item" onclick="showPage('template', this)">
+                    <i class="fas fa-envelope-open-text"></i> Template Pesan
+                </div>
+                <div class="sidebar-item" onclick="showPage('history', this)">
+                    <i class="fas fa-history"></i> Riwayat
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Keluar
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- DASHBOARD PAGE -->
+            <div class="page-section active" id="page-dashboard">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                        <p id="todayDate">Ringkasan antrian hari ini</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showPage('register', document.querySelectorAll('.sidebar-item')[2])">
+                        <i class="fas fa-user-plus"></i> Pendaftaran Langsung
+                    </button>
+                </div>
+
+                <div class="queue-display">
+                    <div class="queue-main">
+                        <div class="queue-main-label">Nomor Antrian Terakhir</div>
+                        <div class="queue-main-number" id="lastQueueNumber">-</div>
+                        <div class="queue-main-sub" id="lastQueueInfo">Belum ada antrian</div>
+                    </div>
+                    <div class="queue-stat">
+                        <div class="queue-stat-label">Antrian Berikutnya</div>
+                        <div class="queue-stat-value" id="nextQueueNumber">-</div>
+                        <div class="queue-stat-sub">Siap dipanggil</div>
+                    </div>
+                    <div class="queue-stat">
+                        <div class="queue-stat-label">Total Antrian Hari Ini</div>
+                        <div class="queue-stat-value" id="totalTodayQueue">0</div>
+                        <div class="queue-stat-sub" id="todayBreakdown">0 online • 0 offline</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon pending"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statPending">0</div>
+                        <div class="stat-card-label">Menunggu Konfirmasi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon confirmed"><i class="fas fa-check-circle"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statConfirmed">0</div>
+                        <div class="stat-card-label">Sudah Dikonfirmasi</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon online"><i class="fas fa-globe"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statOnline">0</div>
+                        <div class="stat-card-label">Pendaftaran Online</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-icon offline"><i class="fas fa-walking"></i></div>
+                        </div>
+                        <div class="stat-card-value" id="statOffline">0</div>
+                        <div class="stat-card-label">Pendaftaran Langsung</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-bell"></i> Reservasi Terbaru (Menunggu)</div>
+                        <button class="btn btn-secondary btn-sm" onclick="showPage('queue', document.querySelectorAll('.sidebar-item')[1])">Lihat Semua <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="card-body no-pad" id="recentPendingList"></div>
+                </div>
+            </div>
+
+            <!-- QUEUE PAGE -->
+            <div class="page-section" id="page-queue">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Antrian Hari Ini</h1>
+                        <p>Kelola semua antrian online & offline</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="showPage('register', document.querySelectorAll('.sidebar-item')[2])">
+                        <i class="fas fa-user-plus"></i> Tambah Manual
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-list"></i> Daftar Antrian</div>
+                        <div class="toolbar">
+                            <select id="filterStatus" onchange="renderQueue()">
+                                <option value="all">Semua Status</option>
+                                <option value="pending">Menunggu</option>
+                                <option value="confirmed">Dikonfirmasi</option>
+                                <option value="completed">Selesai</option>
+                                <option value="cancelled">Dibatalkan</option>
+                            </select>
+                            <select id="filterType" onchange="renderQueue()">
+                                <option value="all">Semua Tipe</option>
+                                <option value="online">Online</option>
+                                <option value="offline">Offline/Langsung</option>
+                            </select>
+                            <input type="text" id="searchQueue" placeholder="Cari nama / HP..." oninput="renderQueue()">
+                        </div>
+                    </div>
+                    <div class="card-body no-pad" id="queueList"></div>
+                </div>
+            </div>
+
+            <!-- REGISTER MANUAL PAGE -->
+            <div class="page-section" id="page-register">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Pendaftaran Manual</h1>
+                        <p>Daftarkan pasien yang datang langsung ke klinik</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-user-plus"></i> Form Pendaftaran Langsung</div>
+                    </div>
+                    <div class="card-body">
+                        <form id="manualForm" onsubmit="handleManualRegister(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user" style="color: var(--pink-accent); margin-right: 6px;"></i>Nama Lengkap Pasien *</label>
+                                    <input type="text" id="mName" required placeholder="Nama sesuai KTP">
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-phone" style="color: var(--pink-accent); margin-right: 6px;"></i>Nomor WhatsApp *</label>
+                                    <input type="tel" id="mPhone" required placeholder="08xxxxxxxxxx">
+                                    <div class="form-hint">Untuk pengiriman konfirmasi via WA</div>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-user-md" style="color: var(--pink-accent); margin-right: 6px;"></i>Dokter *</label>
+                                    <select id="mDoctor" required>
+                                        <option value="">-- Pilih Dokter --</option>
+                                        <option value="dr. Fery Gunawan, Sp.OG">dr. Fery Gunawan, Sp.OG</option>
+                                        <option value="dr. Tanti Mariana W., Sp.OG">dr. Tanti Mariana W., Sp.OG</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-stethoscope" style="color: var(--pink-accent); margin-right: 6px;"></i>Tujuan Pemeriksaan *</label>
+                                    <select id="mService" required>
+                                        <option value="">-- Pilih Layanan --</option>
+                                        <option value="Pemeriksaan Kehamilan Rutin / USG">Pemeriksaan Kehamilan / USG</option>
+                                        <option value="Konsultasi Program Hamil">Program Hamil (Promil)</option>
+                                        <option value="Pemeriksaan Keluhan Ginekologi">Keluhan Ginekologi</option>
+                                        <option value="Konsultasi Persalinan">Konsultasi Persalinan</option>
+                                        <option value="Konsultasi Umum">Konsultasi Umum</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar" style="color: var(--pink-accent); margin-right: 6px;"></i>Tanggal Kunjungan *</label>
+                                    <input type="date" id="mDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-clock" style="color: var(--pink-accent); margin-right: 6px;"></i>Perkiraan Jam *</label>
+                                    <select id="mTime" required>
+                                        <option value="">-- Pilih Jam --</option>
+                                        <option value="08:00 - 10:00">08:00 - 10:00</option>
+                                        <option value="10:00 - 12:00">10:00 - 12:00</option>
+                                        <option value="13:00 - 15:00">13:00 - 15:00</option>
+                                        <option value="14:00 - 16:00">14:00 - 16:00</option>
+                                        <option value="16:00 - 18:00">16:00 - 18:00</option>
+                                        <option value="18:00 - 20:00">18:00 - 20:00</option>
+                                        <option value="20:00 - 21:00">20:00 - 21:00</option>
+                                    </select>
+                                </div>
+                                <div class="form-group full">
+                                    <label><i class="fas fa-comment-medical" style="color: var(--pink-accent); margin-right: 6px;"></i>Keterangan / Keluhan</label>
+                                    <textarea id="mComplaint" placeholder="Keluhan atau catatan tambahan..."></textarea>
+                                </div>
+                                <div class="form-group full">
+                                    <label><i class="fas fa-hashtag" style="color: var(--pink-accent); margin-right: 6px;"></i>Nomor Antrian</label>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        <input type="number" id="mQueue" min="1" placeholder="Kosongkan untuk otomatis" style="flex: 1;">
+                                        <div style="background: var(--pink-light); padding: 12px 16px; border-radius: 10px; font-size: 0.85rem; color: var(--text-dark);">
+                                            <strong>Terakhir:</strong> <span id="lastQueueHint" style="color: var(--pink-solid); font-weight: 800; font-size: 1.1rem;">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-hint">Kosongkan untuk otomatis (nomor terakhir + 1). Admin juga bisa isi manual.</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                                <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-save"></i> Simpan Pendaftaran</button>
+                                <button type="button" class="btn btn-success btn-lg" onclick="handleManualRegister(event, true)"><i class="fab fa-whatsapp"></i> Simpan & Kirim WA</button>
+                                <button type="reset" class="btn btn-secondary btn-lg"><i class="fas fa-redo"></i> Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEMPLATE PAGE -->
+            <div class="page-section" id="page-template">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Template Pesan WhatsApp</h1>
+                        <p>Atur pesan otomatis yang dikirim ke pasien</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-envelope-open-text"></i> Template Konfirmasi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Pesan Konfirmasi Pendaftaran</label>
+                            <textarea id="templateConfirm" rows="8" style="width: 100%; padding: 14px; border: 1.5px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none;"></textarea>
+                            <div class="form-hint" style="margin-top: 8px;">
+                                <strong>Variabel yang bisa digunakan:</strong><br>
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{nama}</code> - Nama pasien •
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{nomor}</code> - Nomor antrian •
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{tanggal}</code> - Tanggal kunjungan •
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{jam}</code> - Perkiraan jam •
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{dokter}</code> - Nama dokter •
+                                <code style="background: var(--bg-gray); padding: 2px 6px; border-radius: 4px;">{layanan}</code> - Layanan
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" onclick="saveTemplate()"><i class="fas fa-save"></i> Simpan Template</button>
+                            <button class="btn btn-secondary" onclick="resetTemplate()"><i class="fas fa-undo"></i> Reset ke Default</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-eye"></i> Preview Pesan</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="wa-preview">
+                            <div class="wa-bubble" id="templatePreview"></div>
+                            <div class="wa-time">Contoh preview</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HISTORY PAGE -->
+            <div class="page-section" id="page-history">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>Riwayat Reservasi</h1>
+                        <p>Semua data reservasi (online & offline)</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-history"></i> Semua Data</div>
+                        <button class="btn btn-danger btn-sm" onclick="clearAllData()"><i class="fas fa-trash"></i> Hapus Semua</button>
+                    </div>
+                    <div class="card-body no-pad" id="historyList"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: Edit Queue Number -->
+    <div class="modal-overlay" id="editQueueModal">
+        <div class="modal" style="max-width: 420px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-hashtag"></i> Edit Nomor Antrian</h3>
+                <button class="modal-close" onclick="closeModal('editQueueModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nomor Antrian Baru</label>
+                    <input type="number" id="editQueueInput" min="1" style="font-size: 1.5rem; font-weight: 700; text-align: center; padding: 16px;">
+                    <div class="form-hint">Nomor antrian saat ini: <strong id="editQueueCurrent">-</strong></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('editQueueModal')">Batal</button>
+                <button class="btn btn-primary" onclick="saveQueueEdit()"><i class="fas fa-save"></i> Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Confirm & Send WA -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fab fa-whatsapp" style="color: #25D366;"></i> Konfirmasi & Kirim WA</h3>
+                <button class="modal-close" onclick="closeModal('confirmModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="background: var(--bg-gray); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 0.85rem; color: var(--text-gray); margin-bottom: 4px;">Pasien:</div>
+                    <div style="font-weight: 700;" id="confirmPatientName">-</div>
+                    <div style="font-size: 0.85rem; color: var(--text-gray); margin-top: 8px;">No. WhatsApp:</div>
+                    <div style="font-weight: 600;" id="confirmPatientPhone">-</div>
+                </div>
+                <div class="form-group">
+                    <label>Edit Pesan (sesuai kebutuhan)</label>
+                    <textarea id="confirmMessage" rows="8" style="width: 100%; padding: 14px; border: 1.5px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none;"></textarea>
+                </div>
+                <div class="wa-preview">
+                    <div class="wa-bubble" id="confirmPreview"></div>
+                    <div class="wa-time">Preview pesan</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Batal</button>
+                <button class="btn btn-success" onclick="confirmAndSend()"><i class="fab fa-whatsapp"></i> Konfirmasi & Kirim WA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Send WA (for manual) -->
+    <div class="modal-overlay" id="sendWaModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fab fa-whatsapp" style="color: #25D366;"></i> Kirim Pesan WA</h3>
+                <button class="modal-close" onclick="closeModal('sendWaModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="background: var(--bg-gray); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                    <div style="font-size: 0.85rem; color: var(--text-gray);">Kepada:</div>
+                    <div style="font-weight: 700;" id="sendWaName">-</div>
+                    <div style="font-size: 0.85rem; color: var(--text-gray); margin-top: 4px;" id="sendWaPhone">-</div>
+                </div>
+                <div class="form-group">
+                    <label>Edit Pesan</label>
+                    <textarea id="sendWaMessage" rows="8" style="width: 100%; padding: 14px; border: 1.5px solid var(--border-color); border-radius: 10px; font-family: inherit; font-size: 0.9rem; outline: none;"></textarea>
+                </div>
+                <div class="wa-preview">
+                    <div class="wa-bubble" id="sendWaPreview"></div>
+                    <div class="wa-time">Preview pesan</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('sendWaModal')">Batal</button>
+                <button class="btn btn-wa" onclick="sendWaNow()"><i class="fab fa-whatsapp"></i> Kirim via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><i class="fas fa-check-circle"></i><span id="toastMessage">Berhasil!</span></div>
+
+    <script>
+        // ===== CONFIG =====
+        const ADMIN_PASSWORD = 'admin123';
+        const DEFAULT_TEMPLATE = `Yth. Sdr/i. {nama},
+
+Pendaftaran Anda di Klinik Bunda Sejahtera telah dikonfirmasi ✅
+
+📋 Nomor Antrian: {nomor}
+📅 Tanggal: {tanggal}
+🕐 Perkiraan Jam: {jam}
+👨‍⚕️ Dokter: {dokter}
+💊 Layanan: {layanan}
+
+Mohon datang 15 menit sebelum jadwal. Bawa KTP dan kartu BPJS (jika ada).
+
+Terima kasih telah mempercayakan kesehatan Anda kepada kami.
+- Klinik Bunda Sejahtera`;
+
+        let currentEditId = null;
+        let currentConfirmId = null;
+        let currentSendWaId = null;
+
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        // ===== STORAGE =====
+        function getReservations() {
+            return JSON.parse(localStorage.getItem('klinikReservations') || '[]');
+        }
+        function saveReservations(data) {
+            localStorage.setItem('klinikReservations', JSON.stringify(data));
+        }
+        function getSettings() {
+            return JSON.parse(localStorage.getItem('klinikSettings') || '{}');
+        }
+        function saveSettings(settings) {
+            localStorage.setItem('klinikSettings', JSON.stringify(settings));
+        }
+        function getTemplate() {
+            const settings = getSettings();
+            return settings.waTemplate || DEFAULT_TEMPLATE;
+        }
+        function getTodayStr() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+        function getLastQueueNumber() {
+            const settings = getSettings();
+            const today = getTodayStr();
+            if (settings.lastQueueDate !== today) {
+                return 0; // Reset setiap hari
+            }
+            return settings.lastQueueNumber || 0;
+        }
+        function setLastQueueNumber(num) {
+            const settings = getSettings();
+            settings.lastQueueNumber = num;
+            settings.lastQueueDate = getTodayStr();
+            saveSettings(settings);
+        }
+        function generateId() {
+            return 'RSV-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
+        }
+
+        // ===== LOGIN =====
+        function attemptLogin() {
+            const pwd = document.getElementById('loginPassword').value;
+            if (pwd === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').classList.add('active');
+                document.getElementById('loginError').style.display = 'none';
+                initApp();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('loginPassword').value = '';
+            }
+        }
+        function logout() {
+            if (!confirm('Yakin ingin keluar?')) return;
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ===== NAVIGATION =====
+        function showPage(pageId, element) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            if (element) element.classList.add('active');
+            if (pageId === 'dashboard') refreshDashboard();
+            if (pageId === 'queue') renderQueue();
+            if (pageId === 'register') initRegisterForm();
+            if (pageId === 'template') initTemplate();
+            if (pageId === 'history') renderHistory();
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+            }
+        }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        // ===== INIT APP =====
+        function initApp() {
+            refreshDashboard();
+            updatePendingBadge();
+            // Set today's date display
+            const today = new Date();
+            const opt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('todayDate').textContent = today.toLocaleDateString('id-ID', opt);
+        }
+
+        // ===== DASHBOARD =====
+        function refreshDashboard() {
+            const all = getReservations();
+            const today = getTodayStr();
+            const todayData = all.filter(r => r.date === today && r.status !== 'cancelled');
+            const pending = all.filter(r => r.status === 'pending');
+            const confirmed = all.filter(r => r.status === 'confirmed');
+            const onlineToday = todayData.filter(r => r.type === 'online');
+            const offlineToday = todayData.filter(r => r.type === 'offline');
+            const lastNum = getLastQueueNumber();
+
+            document.getElementById('lastQueueNumber').textContent = lastNum > 0 ? String(lastNum).padStart(2, '0') : '-';
+            document.getElementById('lastQueueInfo').textContent = lastNum > 0 ? `Antrian terakhir hari ini` : 'Belum ada antrian hari ini';
+
+            // Next queue: first confirmed without queue or first pending
+            const waiting = todayData.filter(r => r.status === 'confirmed' && r.queueNumber).sort((a,b) => a.queueNumber - b.queueNumber);
+            document.getElementById('nextQueueNumber').textContent = waiting.length > 0 ? String(waiting[0].queueNumber).padStart(2, '0') : '-';
+            document.getElementById('totalTodayQueue').textContent = todayData.length;
+            document.getElementById('todayBreakdown').textContent = `${onlineToday.length} online • ${offlineToday.length} offline`;
+
+            document.getElementById('statPending').textContent = pending.length;
+            document.getElementById('statConfirmed').textContent = confirmed.length;
+            document.getElementById('statOnline').textContent = onlineToday.length;
+            document.getElementById('statOffline').textContent = offlineToday.length;
+
+            // Recent pending
+            const recent = pending.slice(0, 5);
+            const recentHtml = recent.length === 0 
+                ? `<div class="empty-state"><i class="fas fa-check-circle"></i><h4>Semua Sudah Diproses</h4><p>Tidak ada reservasi menunggu</p></div>`
+                : `<div class="res-list">${recent.map(r => renderResItem(r)).join('')}</div>`;
+            document.getElementById('recentPendingList').innerHTML = recentHtml;
+        }
+
+        function updatePendingBadge() {
+            const pending = getReservations().filter(r => r.status === 'pending').length;
+            const badge = document.getElementById('pendingBadge');
+            badge.textContent = pending;
+            badge.style.display = pending > 0 ? 'inline-block' : 'none';
+        }
+
+        // ===== RENDER RESERVATION ITEM =====
+        function renderResItem(r) {
+            const queueNum = r.queueNumber ? String(r.queueNumber).padStart(2, '0') : '?';
+            const dateObj = new Date(r.date);
+            const dateStr = `${dayNames[dateObj.getDay()]}, ${dateObj.getDate()}/${dateObj.getMonth()+1}`;
+            const complaintHtml = r.complaint && r.complaint !== '-' ? `<div class="res-complaint"><i class="fas fa-comment-medical"></i> ${r.complaint}</div>` : '';
+            
+            let actions = '';
+            if (r.status === 'pending') {
+                actions = `
+                    <button class="btn btn-success btn-sm" onclick="openConfirmModal('${r.id}')"><i class="fab fa-whatsapp"></i> Konfirmasi</button>
+                    <button class="btn btn-danger btn-sm" onclick="updateStatus('${r.id}', 'cancelled')"><i class="fas fa-times"></i></button>
+                `;
+            } else if (r.status === 'confirmed') {
+                actions = `
+                    <button class="btn btn-wa btn-sm" onclick="openSendWaModal('${r.id}')"><i class="fab fa-whatsapp"></i> Kirim WA</button>
+                    <button class="btn btn-primary btn-sm" onclick="updateStatus('${r.id}', 'completed')"><i class="fas fa-check"></i> Selesai</button>
+                    <button class="btn btn-danger btn-sm" onclick="updateStatus('${r.id}', 'cancelled')"><i class="fas fa-times"></i></button>
+                `;
+            } else if (r.status === 'completed') {
+                actions = `<span style="color: var(--green); font-size: 0.8rem; font-weight: 600;"><i class="fas fa-check-circle"></i> Selesai</span>`;
+            } else {
+                actions = `<span style="color: var(--text-light); font-size: 0.8rem;">Dibatalkan</span>`;
+            }
+
+            return `
+                <div class="res-item">
+                    <div class="res-queue ${r.status}">
+                        <div class="res-queue-edit" onclick="openEditQueue('${r.id}')" title="Edit nomor"><i class="fas fa-pen"></i></div>
+                        <div class="res-queue-number">${queueNum}</div>
+                        <div class="res-queue-label">Antrian</div>
+                    </div>
+                    <div class="res-info">
+                        <div class="res-info-top">
+                            <span class="res-name">${r.patientName}</span>
+                            <span class="res-type-badge ${r.type}">${r.type === 'online' ? '🌐 Online' : '🚶 Langsung'}</span>
+                        </div>
+                        <div class="res-meta">
+                            <span><i class="fas fa-phone"></i> ${r.patientPhone}</span>
+                            <span><i class="fas fa-calendar"></i> ${dateStr}</span>
+                            <span><i class="fas fa-clock"></i> ${r.timeSlot}</span>
+                            <span><i class="fas fa-user-md"></i> ${r.doctor}</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--text-gray);"><i class="fas fa-stethoscope" style="color: var(--pink-accent); margin-right: 4px;"></i>${r.service}</div>
+                        ${complaintHtml}
+                    </div>
+                    <div class="res-actions">${actions}</div>
+                </div>
+            `;
+        }
+
+        // ===== QUEUE PAGE =====
+        function renderQueue() {
+            const all = getReservations();
+            const filterStatus = document.getElementById('filterStatus').value;
+            const filterType = document.getElementById('filterType').value;
+            const search = document.getElementById('searchQueue').value.toLowerCase();
+
+            let filtered = all;
+            if (filterStatus !== 'all') filtered = filtered.filter(r => r.status === filterStatus);
+            if (filterType !== 'all') filtered = filtered.filter(r => r.type === filterType);
+            if (search) filtered = filtered.filter(r => r.patientName.toLowerCase().includes(search) || r.patientPhone.includes(search));
+
+            // Sort: by queue number (null last), then by date
+            filtered.sort((a, b) => {
+                if (a.queueNumber === null && b.queueNumber === null) return 0;
+                if (a.queueNumber === null) return 1;
+                if (b.queueNumber === null) return -1;
+                return a.queueNumber - b.queueNumber;
+            });
+
+            const html = filtered.length === 0
+                ? `<div class="empty-state"><i class="fas fa-inbox"></i><h4>Tidak Ada Data</h4><p>Tidak ada reservasi sesuai filter</p></div>`
+                : `<div class="res-list">${filtered.map(r => renderResItem(r)).join('')}</div>`;
+            document.getElementById('queueList').innerHTML = html;
+        }
+
+        // ===== HISTORY PAGE =====
+        function renderHistory() {
+            const all = getReservations();
+            const html = all.length === 0
+                ? `<div class="empty-state"><i class="fas fa-inbox"></i><h4>Belum Ada Data</h4><p>Belum ada reservasi tercatat</p></div>`
+                : `<div class="res-list">${all.map(r => renderResItem(r)).join('')}</div>`;
+            document.getElementById('historyList').innerHTML = html;
+        }
+
+        // ===== REGISTER FORM =====
+        function initRegisterForm() {
+            const today = getTodayStr();
+            document.getElementById('mDate').value = today;
+            document.getElementById('mDate').setAttribute('min', today);
+            const lastNum = getLastQueueNumber();
+            document.getElementById('lastQueueHint').textContent = lastNum > 0 ? String(lastNum).padStart(2, '0') : 'Belum ada';
+        }
+
+        function handleManualRegister(e, sendWa = false) {
+            if (e) e.preventDefault();
+            const name = document.getElementById('mName').value.trim();
+            const phone = document.getElementById('mPhone').value.trim();
+            const doctor = document.getElementById('mDoctor').value;
+            const service = document.getElementById('mService').value;
+            const date = document.getElementById('mDate').value;
+            const time = document.getElementById('mTime').value;
+            const complaint = document.getElementById('mComplaint').value.trim() || '-';
+            const queueInput = document.getElementById('mQueue').value;
+
+            if (!name || !phone || !doctor || !service || !date || !time) {
+                showToast('Lengkapi semua field yang wajib!', true);
+                return false;
+            }
+
+            let queueNumber;
+            if (queueInput) {
+                queueNumber = parseInt(queueInput);
+            } else {
+                queueNumber = getLastQueueNumber() + 1;
+            }
+
+            // Update last queue number if this is higher
+            if (queueNumber > getLastQueueNumber()) {
+                setLastQueueNumber(queueNumber);
+            }
+
+            const reservation = {
+                id: generateId(),
+                type: 'offline',
+                patientName: name,
+                patientPhone: phone,
+                doctor: doctor,
+                service: service,
+                date: date,
+                timeSlot: time,
+                complaint: complaint,
+                queueNumber: queueNumber,
+                status: 'confirmed',
+                createdAt: new Date().toISOString(),
+                confirmedAt: new Date().toISOString()
+            };
+
+            const all = getReservations();
+            all.unshift(reservation);
+            saveReservations(all);
+
+            showToast(`Pendaftaran berhasil! No. Antrian: ${String(queueNumber).padStart(2, '0')}`);
+            document.getElementById('manualForm').reset();
+            initRegisterForm();
+            updatePendingBadge();
+
+            if (sendWa) {
+                setTimeout(() => openSendWaModal(reservation.id), 300);
+            }
+            return true;
+        }
+
+        // ===== TEMPLATE PAGE =====
+        function initTemplate() {
+            const template = getTemplate();
+            document.getElementById('templateConfirm').value = template;
+            updateTemplatePreview();
+            document.getElementById('templateConfirm').addEventListener('input', updateTemplatePreview);
+        }
+        function updateTemplatePreview() {
+            const template = document.getElementById('templateConfirm').value;
+            const preview = template
+                .replace(/{nama}/g, 'Siti Aminah')
+                .replace(/{nomor}/g, '05')
+                .replace(/{tanggal}/g, 'Senin, 15/1/2026')
+                .replace(/{jam}/g, '10:00 - 12:00')
+                .replace(/{dokter}/g, 'dr. Fery Gunawan, Sp.OG')
+                .replace(/{layanan}/g, 'Pemeriksaan USG');
+            document.getElementById('templatePreview').textContent = preview;
+        }
+        function saveTemplate() {
+            const template = document.getElementById('templateConfirm').value;
+            const settings = getSettings();
+            settings.waTemplate = template;
+            saveSettings(settings);
+            showToast('Template berhasil disimpan!');
+        }
+        function resetTemplate() {
+            if (!confirm('Reset template ke default?')) return;
+            const settings = getSettings();
+            delete settings.waTemplate;
+            saveSettings(settings);
+            document.getElementById('templateConfirm').value = DEFAULT_TEMPLATE;
+            updateTemplatePreview();
+            showToast('Template direset ke default');
+        }
+
+        // ===== EDIT QUEUE NUMBER =====
+        function openEditQueue(id) {
+            const res = getReservations().find(r => r.id === id);
+            if (!res) return;
+            currentEditId = id;
+            document.getElementById('editQueueInput').value = res.queueNumber || '';
+            document.getElementById('editQueueCurrent').textContent = res.queueNumber ? String(res.queueNumber).padStart(2, '0') : 'Belum diatur';
+            openModal('editQueueModal');
+        }
+        function saveQueueEdit() {
+            const newNum = parseInt(document.getElementById('editQueueInput').value);
+            if (!newNum || newNum < 1) {
+                showToast('Nomor antrian tidak valid!', true);
+                return;
+            }
+            const all = getReservations();
+            const idx = all.findIndex(r => r.id === currentEditId);
+            if (idx !== -1) {
+                all[idx].queueNumber = newNum;
+                saveReservations(all);
+                if (newNum > getLastQueueNumber()) setLastQueueNumber(newNum);
+                showToast(`Nomor antrian diubah menjadi ${String(newNum).padStart(2, '0')}`);
+                closeModal('editQueueModal');
+                refreshAll();
+            }
+        }
+
+        // ===== CONFIRM & SEND WA =====
+        function openConfirmModal(id) {
+            const res = getReservations().find(r => r.id === id);
+            if (!res) return;
+            currentConfirmId = id;
+            document.getElementById('confirmPatientName').textContent = res.patientName;
+            document.getElementById('confirmPatientPhone').textContent = res.patientPhone;
+            
+            // Assign queue number if not set
+            if (!res.queueNumber) {
+                const newNum = getLastQueueNumber() + 1;
+                const all = getReservations();
+                const idx = all.findIndex(r => r.id === id);
+                all[idx].queueNumber = newNum;
+                setLastQueueNumber(newNum);
+                saveReservations(all);
+                res.queueNumber = newNum;
+            }
+
+            const dateObj = new Date(res.date);
+            const dateStr = `${dayNames[dateObj.getDay()]}, ${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+            
+            const template = getTemplate();
+            const message = template
+                .replace(/{nama}/g, res.patientName)
+                .replace(/{nomor}/g, String(res.queueNumber).padStart(2, '0'))
+                .replace(/{tanggal}/g, dateStr)
+                .replace(/{jam}/g, res.timeSlot)
+                .replace(/{dokter}/g, res.doctor)
+                .replace(/{layanan}/g, res.service);
+
+            document.getElementById('confirmMessage').value = message;
+            document.getElementById('confirmPreview').textContent = message;
+            document.getElementById('confirmMessage').oninput = () => {
+                document.getElementById('confirmPreview').textContent = document.getElementById('confirmMessage').value;
+            };
+            openModal('confirmModal');
+        }
+
+        function confirmAndSend() {
+            const res = getReservations().find(r => r.id === currentConfirmId);
+            if (!res) return;
+            const message = document.getElementById('confirmMessage').value;
+            
+            // Update status
+            const all = getReservations();
+            const idx = all.findIndex(r => r.id === currentConfirmId);
+            all[idx].status = 'confirmed';
+            all[idx].confirmedAt = new Date().toISOString();
+            saveReservations(all);
+
+            // Open WA
+            const phone = res.patientPhone.replace(/\D/g, '').replace(/^0/, '62');
+            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+
+            closeModal('confirmModal');
+            showToast('Reservasi dikonfirmasi & WA terbuka');
+            refreshAll();
+        }
+
+        // ===== SEND WA MODAL (for confirmed) =====
+        function openSendWaModal(id) {
+            const res = getReservations().find(r => r.id === id);
+            if (!res) return;
+            currentSendWaId = id;
+            document.getElementById('sendWaName').textContent = res.patientName;
+            document.getElementById('sendWaPhone').textContent = res.patientPhone;
+
+            const dateObj = new Date(res.date);
+            const dateStr = `${dayNames[dateObj.getDay()]}, ${dateObj.getDate()}/${dateObj.getMonth()+1}/${dateObj.getFullYear()}`;
+            
+            const template = getTemplate();
+            const message = template
+                .replace(/{nama}/g, res.patientName)
+                .replace(/{nomor}/g, res.queueNumber ? String(res.queueNumber).padStart(2, '0') : '-')
+                .replace(/{tanggal}/g, dateStr)
+                .replace(/{jam}/g, res.timeSlot)
+                .replace(/{dokter}/g, res.doctor)
+                .replace(/{layanan}/g, res.service);
+
+            document.getElementById('sendWaMessage').value = message;
+            document.getElementById('sendWaPreview').textContent = message;
+            document.getElementById('sendWaMessage').oninput = () => {
+                document.getElementById('sendWaPreview').textContent = document.getElementById('sendWaMessage').value;
+            };
+            openModal('sendWaModal');
+        }
+
+        function sendWaNow() {
+            const res = getReservations().find(r => r.id === currentSendWaId);
+            if (!res) return;
+            const message = document.getElementById('sendWaMessage').value;
+            const phone = res.patientPhone.replace(/\D/g, '').replace(/^0/, '62');
+            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+            closeModal('sendWaModal');
+            showToast('WhatsApp terbuka di tab baru');
+        }
+
+        // ===== UPDATE STATUS =====
+        function updateStatus(id, status) {
+            const all = getReservations();
+            const idx = all.findIndex(r => r.id === id);
+            if (idx !== -1) {
+                all[idx].status = status;
+                saveReservations(all);
+                const statusText = { confirmed: 'Dikonfirmasi', cancelled: 'Dibatalkan', completed: 'Selesai' };
+                showToast(`Status diubah: ${statusText[status]}`);
+                refreshAll();
+            }
+        }
+
+        // ===== CLEAR ALL =====
+        function clearAllData() {
+            if (!confirm('PERINGATAN: Semua data reservasi akan dihapus permanen. Lanjutkan?')) return;
+            if (!confirm('Yakin? Tindakan ini tidak bisa dibatalkan!')) return;
+            localStorage.removeItem('klinikReservations');
+            localStorage.removeItem('klinikSettings');
+            showToast('Semua data telah dihapus');
+            refreshAll();
+        }
+
+        // ===== HELPERS =====
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function refreshAll() {
+            refreshDashboard();
+            renderQueue();
+            renderHistory();
+            updatePendingBadge();
+        }
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.toggle('error', isError);
+            toast.querySelector('i').className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
